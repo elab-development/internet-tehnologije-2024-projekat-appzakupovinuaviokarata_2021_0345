@@ -4,51 +4,62 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse; 
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    public function register(Request $request)
+    /**
+     * Display the login view.
+     */
+    public function create(): View
     {
-        $data = $request->validate([
-            'name' => ['required','string','max:100'],
-            'email' => ['required','email','max:150','unique:users,email'],
-            'password' => ['required','string','min:6','confirmed'],
-        ]);
-
-        $user = User::create([
-            'name' => $data['name'],
-            'email'=> $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-
-        $token = $user->createToken('api')->plainTextToken;
-        return response()->json(['user'=>$user, 'token'=>$token], 201);
+        return view('auth.login');
     }
 
-    public function login(Request $request)
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function store(LoginRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'email' => ['required','email'],
-            'password' => ['required','string'],
-        ]);
+        $request->authenticate();
 
-        $user = User::where('email', $data['email'])->first();
+        $request->session()->regenerate();
 
-        if (! $user || ! Hash::check($data['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-
-        $token = $user->createToken('api')->plainTextToken;
-        return response()->json(['user'=>$user, 'token'=>$token], 200);
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    public function logout(Request $request)
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+     public function apiStore(LoginRequest $request): JsonResponse
+    {
+        $request->authenticate();                  // uses Breeze’s LoginRequest
+        $user = Auth::user();
+        $token = $user->createToken('api')->plainTextToken;
+
+        return response()->json([
+            'user'  => $user,
+            'token' => $token,
+        ], 200);
+    }
+
+    // POST /api/logout   (auth:sanctum)
+    public function apiDestroy(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()?->delete();
         return response()->json(['message' => 'Logged out'], 200);
