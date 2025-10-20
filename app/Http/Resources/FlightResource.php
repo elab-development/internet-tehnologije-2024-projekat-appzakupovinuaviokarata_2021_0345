@@ -21,6 +21,7 @@ class FlightResource extends JsonResource
             'arr_time' => $this->arr_time->toIso8601String(),
             'duration_min' => $this->duration_min,
             'stops' => $this->stops,
+            'status'    => $this->status ?? null,
 
             'from' => new AirportResource($this->whenLoaded('origin')),
             'to'   => new AirportResource($this->whenLoaded('destination')),

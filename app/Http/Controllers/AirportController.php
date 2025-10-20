@@ -11,19 +11,31 @@ class AirportController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->query('search');
-        $query = Airport::query();
+        $q     = (string) $request->query('search', '');
+        $limit = 20;
+        $key   = 'airports:index:search=' . mb_strtolower($q) . ':limit=' . $limit;
+        $ttl   = 60 * 60 * 24; // 24h
 
-        if ($q) {
-            $q = mb_strtolower($q);
-            $query->where(function($w) use ($q) {
-                $w->whereRaw('LOWER(iata) = ?', [$q])
-                  ->orWhereRaw('LOWER(name) LIKE ?', ["%$q%"])
-                  ->orWhereRaw('LOWER(city) LIKE ?', ["%$q%"])
-                  ->orWhereRaw('LOWER(country) LIKE ?', ["%$q%"]);
-            });
-        }
+        $payload = Cache::remember($key, $ttl, function () use ($q, $limit) {
+            $query = Airport::query();
 
-        return AirportResource::collection($query->limit(20)->get());
+            if ($q !== '') {
+                $qq = mb_strtolower($q);
+                $query->where(function ($w) use ($qq) {
+                    $w->whereRaw('LOWER(iata) = ?', [$qq])              // tačan IATA
+                    ->orWhereRaw('LOWER(name) LIKE ?', ["%$qq%"])
+                    ->orWhereRaw('LOWER(city) LIKE ?', ["%$qq%"])
+                    ->orWhereRaw('LOWER(country) LIKE ?', ["%$qq%"]);
+                });
+            }
+
+            $items = $query->orderBy('iata')->limit($limit)->get();
+
+            // Ako koristiš AirportResource:
+            return \App\Http\Resources\AirportResource::collection($items)
+                ->response()->getData(true);
+        });
+
+        return response()->json($payload, 200);
     }
 }

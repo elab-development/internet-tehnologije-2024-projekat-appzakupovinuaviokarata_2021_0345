@@ -10,6 +10,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
+use App\Http\Middleware\RoleMiddleware;
+
 Route::prefix('auth')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'apiStore']);
     Route::post('login',    [AuthenticatedSessionController::class, 'apiStore']);
@@ -35,6 +37,12 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/airports', [AirportController::class, 'index']);
 Route::get('/flights/search', [FlightSearchController::class, 'search']);
 Route::get('/flights/{flight}', [FlightSearchController::class, 'show']);
+
+Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin,staff'])->group(function () {
+    Route::post  ('/flights',            [FlightSearchController::class, 'store']);    // 201
+    Route::put   ('/flights/{flight}',   [FlightSearchController::class, 'update']);   // 200
+    Route::delete('/flights/{flight}',   [FlightSearchController::class, 'destroy']);  // 204
+});
 
 
 if (app()->environment('local')) {
