@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ExportController;
 
+use App\Http\Controllers\PublicDataController;
+
 use App\Http\Middleware\RoleMiddleware;
 
 Route::prefix('auth')->group(function () {
@@ -61,3 +63,5 @@ Route::middleware('auth:sanctum')->get('/exports/bookings/{booking}.ics', [Expor
 
 // PDF karte
 Route::middleware('auth:sanctum')->get('/exports/bookings/{booking}.pdf', [ExportController::class, 'bookingPdf']);
+
+Route::get('/public/weather-summary', [PublicDataController::class, 'weatherSummary']);
