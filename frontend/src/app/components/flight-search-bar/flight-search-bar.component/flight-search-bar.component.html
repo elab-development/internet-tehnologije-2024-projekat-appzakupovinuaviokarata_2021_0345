@@ -1,0 +1,72 @@
+<section class="hero-bg">
+    <div class="container">
+        <div class="hero">
+            <div class="brand">
+                <div class="logo">✈️</div>
+                <div class="title">Flight Tickets</div>
+            </div>
+
+            <div class="tabs">
+                <button *ngFor="let t of tripTypes"
+                        class="tab"
+                        [class.active]="form.value.tripType === t.key"
+                        (click)="setTripType(t.key)">
+                {{ t.label }}
+                </button>
+            </div>
+
+            <form class="bar" [formGroup]="form" (ngSubmit)="submit()">
+                <!-- From -->
+                <div class="cell">
+                <label>From</label>
+                <input formControlName="from" placeholder="BEG" maxlength="3" />
+                <small *ngIf="form.controls.from.touched && form.controls.from.invalid">IATA code (3 letters)</small>
+                </div>
+
+                <!-- Swap -->
+                <button type="button" class="swap" title="Swap" (click)="swap()">⇄</button>
+
+                <!-- To -->
+                <div class="cell">
+                <label>To</label>
+                <input formControlName="to" placeholder="AMS" maxlength="3" />
+                <small *ngIf="form.controls.to.touched && form.controls.to.invalid">IATA code (3 letters)</small>
+                </div>
+
+                <!-- Depart -->
+                <div class="cell">
+                <label>Depart</label>
+                <input type="date" formControlName="depart" />
+                </div>
+
+                <!-- Return (hidden when oneway) -->
+                <div class="cell" *ngIf="form.value.tripType === 'return'">
+                <label>Return</label>
+                <input type="date" formControlName="ret" />
+                </div>
+
+                <!-- Travellers & Cabin -->
+                <div class="cell travellers">
+                <label>Travellers & cabin</label>
+                <div class="row">
+                    <input type="number" min="1" formControlName="pax" />
+                    <select formControlName="cabin">
+                    <option *ngFor="let c of cabins" [value]="c.key">{{ c.label }}</option>
+                    </select>
+                </div>
+                </div>
+
+                <!-- Search -->
+                <div class="cell action">
+                <button type="submit" class="search">Search</button>
+                </div>
+            </form>
+
+            <div class="options">
+                <label><input type="checkbox" formControlName="nearbyFrom" /> Add nearby airports (from)</label>
+                <label><input type="checkbox" formControlName="nearbyTo" /> Add nearby airports (to)</label>
+                <label><input type="checkbox" formControlName="direct" /> Direct flights</label>
+            </div>
+            </div>
+    </div>
+</section>

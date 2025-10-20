@@ -1,1 +1,7 @@
-<p>search works!</p>
+<h2>Find Flights</h2>
+<form (ngSubmit)="go()" #f="ngForm" style="display:grid; gap:8px; max-width:380px">
+  <input name="from" [(ngModel)]="from" placeholder="From (IATA e.g. BEG)" required />
+  <input name="to"   [(ngModel)]="to"   placeholder="To (IATA e.g. AMS)" required />
+  <input name="date" [(ngModel)]="date" type="date" />
+  <button [disabled]="f.invalid">Search</button>
+</form>

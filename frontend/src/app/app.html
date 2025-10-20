@@ -1,7 +1,11 @@
-<nav style="display:flex; gap:12px; padding:12px;">
+<nav class="navbar">
   <a routerLink="/">Home</a>
   <a routerLink="/flights">Flights</a>
-  <a routerLink="/flights/results?from=BEG&to=AMS">Results demo</a>
+  <a routerLink="/flights/results"
+     [queryParams]="{ from: 'BEG', to: 'AMS' }"
+     routerLinkActive="active">
+     Results demo
+  </a>
   <a routerLink="/bookings">Bookings</a>
   <a routerLink="/auth/login">Login</a>
 </nav>

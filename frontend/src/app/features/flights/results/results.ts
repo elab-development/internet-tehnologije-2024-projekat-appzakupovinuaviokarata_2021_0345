@@ -23,12 +23,23 @@ export class Results implements OnInit {
   loading = false;
   error = '';
 
+  from = '';
+  to = '';
+  date = '';
+
   
   ngOnInit(): void {
     this.route.queryParams.subscribe(p => {
       const from = (p['from'] || '').toUpperCase();
       const to   = (p['to']   || '').toUpperCase();
       const date = p['date'] || '';
+
+      if (!this.from || !this.to) {
+        this.rows = [];
+        this.error = 'Pick origin and destination (e.g. BEG → AMS).';
+        return;
+      }
+
       this.fetch(from, to, date);
     });
   }
