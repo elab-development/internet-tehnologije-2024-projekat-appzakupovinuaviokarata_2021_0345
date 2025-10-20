@@ -13,7 +13,7 @@ class DevSeedController extends Controller
 {
     public function example(): JsonResponse
     {
-        // sve u try/catch da dobijemo jasan JSON ako nešto pukne
+       
         try {
             $beg = Airport::firstOrCreate(['iata'=>'BEG'], [
                 'name'=>'Nikola Tesla','city'=>'Belgrade','country'=>'Serbia'

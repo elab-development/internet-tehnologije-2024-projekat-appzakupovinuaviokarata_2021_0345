@@ -11,7 +11,7 @@ class FlightSearchController extends Controller
 {
     public function search(Request $request)
     {
-        // 1) Validate inputs (date is optional)
+        // Validate inputs (date is optional)
         $v = $request->validate([
             'from'      => ['required','string','size:3'],
             'to'        => ['required','string','size:3'],
@@ -24,14 +24,14 @@ class FlightSearchController extends Controller
             'per_page'  => ['nullable','integer','min:1','max:50'],
         ]);
 
-        // 2) Resolve IATA -> airport IDs (404 only if FROM/TO invalid)
+        //Resolve IATA -> airport IDs (404 only if FROM/TO invalid)
         $from = Airport::where('iata', strtoupper($v['from']))->first();
         $to   = Airport::where('iata', strtoupper($v['to']))->first();
         if (!$from || !$to) {
             return response()->json(['message' => 'Unknown airport IATA'], 404);
         }
 
-        // 3) Build query
+        // Build query
         $q = Flight::with(['origin','destination','carrier','fares'])
             ->where('airport_from_id', $from->id)
             ->where('airport_to_id', $to->id);
@@ -41,7 +41,7 @@ class FlightSearchController extends Controller
             $q->whereDate('dep_time', $v['date']);
         }
 
-        // Optional filters
+        
         if (isset($v['stops'])) {
             $q->where('stops', $v['stops']);
         }
@@ -65,7 +65,7 @@ class FlightSearchController extends Controller
             default      => $q->orderBy('dep_time'),
         };
 
-        // 4) Return 200 always (even if zero results)
+        // Return 200 always (even if zero results)
         $perPage = (int)($v['per_page'] ?? 10);
         $results = $q->paginate($perPage);
 
