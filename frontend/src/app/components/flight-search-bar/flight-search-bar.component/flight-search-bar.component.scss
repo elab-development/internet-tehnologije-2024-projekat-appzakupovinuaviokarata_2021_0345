@@ -3,16 +3,17 @@
 
 .hero-bg {
   width: 100%;
-  background: #0f0f36;               
+  background: linear-gradient(to bottom, rgb(146, 146, 255), rgb(255, 205, 98));  
+         
 
   padding: 56px 0 40px;               
 }
 
 
 .container {
-  max-width: 1400px;                    
+  max-width: 1700px;                    
   margin-inline: auto;                  
-  padding-inline: 16px;                
+  padding-inline: 16px;      
 }
 
 
@@ -36,6 +37,7 @@
 }
   .title { 
     font-weight: 700; 
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     letter-spacing: .8px; 
     font-size: 20px; 
 }
@@ -78,13 +80,15 @@
   label { 
     font-size:15px; 
     color:#7396c9; 
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
   input, select {
     background:#fff; 
     font-size: 16px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     height: 60px;
     color:#abafd8; 
-    font-weight: 700;
+    font-weight: 500;
     border:1px solid #2c1f58;
     border-radius:10px; 
     padding:0 12px; 
@@ -107,6 +111,7 @@
 
 .travellers .row {
      display:flex; 
+     
      gap:8px; 
     }
 .action { 

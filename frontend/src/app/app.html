@@ -1,13 +1,30 @@
-<nav class="navbar">
-  <a routerLink="/">Home</a>
-  <a routerLink="/flights">Flights</a>
-  <a routerLink="/flights/results"
-     [queryParams]="{ from: 'BEG', to: 'AMS' }"
-     routerLinkActive="active">
-     Results demo
-  </a>
-  <a routerLink="/bookings">Bookings</a>
-  <a routerLink="/auth/login">Login</a>
-</nav>
+
+
+<header class="site-header">
+  <!-- thin strip -->
+  <div class="top-strip"></div>
+
+  <!-- main bar -->
+  <div class="nav-wrap">
+    <div class="container">
+      <a class="brand">
+        <span class="brand-main">Sail</span><span class="brand-accent">High.</span><span class="brand-dot"></span>
+      </a>
+
+      <nav class="nav">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a routerLink="/flights" routerLinkActive="active">Flights</a>
+        <a routerLink="/flights/results" [queryParams]="{ from:'BEG', to:'AMS' }" routerLinkActive="active">Results demo</a>
+        <a routerLink="/bookings" routerLinkActive="active">Bookings</a>
+        <a routerLink="/auth/login" routerLinkActive="active">Login</a>
+      </nav>
+    </div>
+  </div>
+</header>
 
 <router-outlet></router-outlet>
+
+
+
+
+

@@ -1,17 +1,105 @@
-nav a.active { 
-    font-weight: 600; 
-    text-decoration: solid; 
+
+
+.container {
+  margin-inline: 18%;
+  padding-inline: 16px;
 }
 
-nav a { 
-    text-decoration: none; 
-    color: white;
+
+.site-header {
+  position: sticky; 
+  top: 0; 
+  z-index: 1000; 
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
-.navbar{
-    display:flex; 
-    color: white;
-    gap:12px; 
-    padding:12px;
-    background-color: #0f0f36;
+
+
+
+.nav-wrap {
+  background: #0f0f36;
+  //box-shadow: 0 2px 12px rgba(0,0,0,.35);
+}
+
+
+.nav-wrap .container {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  height: 56px;
+}
+
+
+.brand {
+  display: inline-flex; 
+  align-items: baseline; 
+  gap: 0;
+  text-decoration: none;
+  letter-spacing: .4px;
+  user-select: none;
+}
+
+.brand-main   { 
+    color: #ffffff; 
+    font-weight: 800; 
+    font-size: 22px; 
+}
+.brand-accent { 
+    color: #ff9305; 
+    font-weight: 800; 
+    font-size: 22px; 
+}
+.brand-dot    { 
+    color: #ff9305; 
+    font-weight: 900; 
+    font-size: 22px; 
+    margin-left: 1px; 
+}
+
+
+.nav {
+  display: flex; 
+  gap: 35px;
+}
+.nav a {
+  position: relative;
+  color: #c9d6e6;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 15px;
+  letter-spacing: .7px;
+  padding: 6px 2px;
+  transition: color .15s ease-in-out;
+}
+
+
+.nav a:hover {
+  color: #ffffff;
+}
+
+
+.nav a.active {
+  color: #ffd34d;
+}
+.nav a.active::after {
+  content: "";
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  bottom: -5px;
+  height: 2px; 
+  background: #ff9305; 
+  order-radius: 2px;
+}
+
+
+@media (max-width: 760px) {
+  .nav-wrap .container { 
+    height: auto; 
+    padding-block: 10px; 
+}
+  .nav { 
+    gap: 16px; 
+    flex-wrap: wrap; 
+}
 }
