@@ -24,11 +24,7 @@ return new class extends Migration {
                 $table->unsignedTinyInteger('stops')->default(0)->after('duration_min');
             }
 
-            // korisni indeksi
-            if (!Schema::hasColumn('flights', 'dep_time')) {
-                
-            }
-            $table->index(['airport_from_id', 'airport_to_id', 'dep_time']);
+            
         });
     }
 
