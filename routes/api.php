@@ -9,6 +9,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ExportController;
 
 use App\Http\Middleware\RoleMiddleware;
 
@@ -49,3 +50,14 @@ if (app()->environment('local')) {
     Route::match(['POST','GET'], '/dev/seed-example', [DevSeedController::class, 'example']);
 
 }
+
+Route::get('/exports/flights.csv', [ExportController::class, 'flightsCsv']);
+
+//export sopstvenih rezervacija u CSV
+Route::middleware('auth:sanctum')->get('/exports/bookings.csv', [ExportController::class, 'bookingsCsv']);
+
+//ics za konkretnu rezervaciju
+Route::middleware('auth:sanctum')->get('/exports/bookings/{booking}.ics', [ExportController::class, 'bookingIcs']);
+
+// PDF karte
+Route::middleware('auth:sanctum')->get('/exports/bookings/{booking}.pdf', [ExportController::class, 'bookingPdf']);
