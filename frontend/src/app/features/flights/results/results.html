@@ -1,0 +1,23 @@
+<h2 class="font-semibold mb-3">Search results</h2>
+
+<div *ngIf="loading" class="text-slate-500">Loading…</div>
+<div *ngIf="error" class="text-red-600">{{ error }}</div>
+
+<div class="space-y-3" *ngIf="!loading && !error">
+  <div *ngFor="let f of rows" class="bg-white p-4 rounded shadow flex items-center justify-between">
+    <div>
+      <div class="font-medium">{{ f.flight_no }} ({{ f.carrier?.code }})</div>
+      <div class="text-sm text-slate-600">
+        {{ f.origin?.iata }} {{ f.dep_time | date:'short' }}
+        →
+        {{ f.destination?.iata }} {{ f.arr_time | date:'short' }}
+      </div>
+      <div class="text-xs text-slate-500">stops: {{ f.stops }}</div>
+    </div>
+    <div class="text-right text-lg font-semibold">
+      {{ f.fares?.[0]?.price || '-' }} {{ f.fares?.[0]?.currency || 'EUR' }}
+    </div>
+  </div>
+
+  <div *ngIf="rows.length === 0" class="text-slate-500">No results.</div>
+</div>
