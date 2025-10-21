@@ -1,12 +1,63 @@
 <div class="container">
-    <h2>My bookings</h2>
-    <app-ui-button (clicked)="open=true">Show example modal</app-ui-button>
+  <h2>My bookings</h2>
 
-    <app-ui-modal [open]="open" title="Booking" (close)="open=false">
-      <p>Example modal content…</p>
-      <div modal-actions>
-        <app-ui-button variant="ghost" (clicked)="open=false">Close</app-ui-button>
-        <app-ui-button (clicked)="confirm()">Confirm</app-ui-button>
+  <ng-container *ngIf="loading(); else content">
+    <p>Loading…</p>
+  </ng-container>
+
+  <ng-template #content>
+    <p *ngIf="error()">{{ error() }}</p>
+    <p *ngIf="!error() && items().length === 0">You have no bookings yet.</p>
+
+    <div *ngIf="items().length">
+      <div class="bookings">
+        <div class="booking" *ngFor="let b of items(); trackBy: trackById">
+          <div class="row-1">
+            <strong>{{ b.flight.origin }} → {{ b.flight.destination }}</strong>
+            <span class="badge" [class.pending]="b.status==='PENDING'"
+                                [class.confirmed]="b.status==='CONFIRMED'"
+                                [class.cancelled]="b.status==='CANCELLED'">
+              {{ b.status }}
+            </span>
+          </div>
+          <div class="row-2">
+            <span>{{ b.flight.code || 'Flight' }} · {{ b.fare.class || 'Fare' }}</span>
+            <span>{{ b.total_price | number:'1.0-0' }} {{ b.currency }}</span>
+          </div>
+          <div class="actions">
+            <app-ui-button (clicked)="openDetails(b)">View</app-ui-button>
+            <app-ui-button variant="ghost"
+                           [disabled]="b.status==='CANCELLED'"
+                           (clicked)="selected.set(b); isModalOpen.set(true)">
+              Cancel
+            </app-ui-button>
+          </div>
+        </div>
       </div>
-    </app-ui-modal>
-  </div>
+
+      <!-- PAGINACIJA -->
+      <div class="pager" *ngIf="lastPage() > 1">
+        <app-ui-button variant="ghost" [disabled]="page()===1"
+          (clicked)="page.set(page()-1); fetch()">Prev</app-ui-button>
+        <span>Page {{ page() }} / {{ lastPage() }}</span>
+        <app-ui-button variant="ghost" [disabled]="page()===lastPage()"
+          (clicked)="page.set(page()+1); fetch()">Next</app-ui-button>
+      </div>
+    </div>
+  </ng-template>
+
+  
+  <app-ui-modal [open]="isModalOpen()" title="Booking"
+                (close)="closeModal()">
+    <ng-container *ngIf="selected() as s">
+      <p><strong>{{ s.flight.origin }} → {{ s.flight.destination }}</strong></p>
+      <p>Flight: {{ s.flight.code || '-' }}</p>
+      <p>Fare: {{ s.fare.name || s.fare.class || '-' }}</p>
+      <p>Total: {{ s.total_price | number:'1.0-0' }} {{ s.currency }}</p>
+      <div modal-actions>
+        <app-ui-button variant="ghost" (clicked)="closeModal()">Close</app-ui-button>
+        <app-ui-button [disabled]="s.status==='CANCELLED'" (clicked)="cancelSelected()">Confirm cancel</app-ui-button>
+      </div>
+    </ng-container>
+  </app-ui-modal>
+</div>
