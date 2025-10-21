@@ -1,0 +1,23 @@
+
+
+<div 
+class="backdrop" 
+*ngIf="open" 
+(click)="close.emit()">
+</div>
+<div 
+class="modal" 
+*ngIf="open" 
+role="dialog" 
+aria-modal="true">
+    <header>
+      <h3>{{ title }}</h3>
+      <button class="x" (click)="close.emit()">×</button>
+    </header>
+    <section class="body">
+      <ng-content></ng-content>
+    </section>
+    <footer class="footer">
+      <ng-content select="[modal-actions]"></ng-content>
+    </footer>
+</div>

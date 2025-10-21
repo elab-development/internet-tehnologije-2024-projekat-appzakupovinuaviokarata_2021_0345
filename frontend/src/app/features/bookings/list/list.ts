@@ -1,25 +1,17 @@
 import { Component } from '@angular/core';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
-import { OnInit, inject } from '@angular/core';
-import { ApiService } from '../../../core/api.service';
+import { CommonModule } from '@angular/common';
+import { UiButton } from '../../../components/shared/ui-button';
+import { UiModal } from '../../../components/shared/ui-modal';
 
 @Component({
-  selector: 'app-list',
-  imports: [NgIf, NgFor, DatePipe],
-  templateUrl: './list.html',
-  styleUrl: './list.scss'
-})
-export class List {
+  standalone: true,
+  selector: 'app-bookings',
+  imports: [CommonModule, UiModal, UiButton],
+  template: `
   
-  private api = inject(ApiService);
-  rows:any[] = [];
-  err = '';
-
-  ngOnInit() {
-    this.api.get<any>('/bookings').subscribe({
-      next: r => this.rows = r?.data ?? r,
-      error: e => this.err = e?.error?.message || 'Unauthorized? Login first.'
-    });
-  }
-
+  `
+})
+export class Bookings {
+  open = false;
+  confirm(){ this.open = false; }
 }

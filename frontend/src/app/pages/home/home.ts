@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FlightSearchBarComponent } from "../../components/flight-search-bar/flight-search-bar.component/flight-search-bar.component";
+
 
 @Component({
   selector: 'app-home',
@@ -8,5 +9,8 @@ import { FlightSearchBarComponent } from "../../components/flight-search-bar/fli
   styleUrl: './home.scss'
 })
 export class Home {
+
+
+  
 
 }

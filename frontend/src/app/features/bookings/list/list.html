@@ -1,1 +1,12 @@
-<p>list works!</p>
+<div class="container">
+    <h2>My bookings</h2>
+    <app-ui-button (clicked)="open=true">Show example modal</app-ui-button>
+
+    <app-ui-modal [open]="open" title="Booking" (close)="open=false">
+      <p>Example modal content…</p>
+      <div modal-actions>
+        <app-ui-button variant="ghost" (clicked)="open=false">Close</app-ui-button>
+        <app-ui-button (clicked)="confirm()">Confirm</app-ui-button>
+      </div>
+    </app-ui-modal>
+  </div>

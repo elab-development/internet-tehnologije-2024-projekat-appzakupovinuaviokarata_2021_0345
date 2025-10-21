@@ -1,0 +1,9 @@
+<section class="wrap" [style.--max-width.px]="maxWidth" [style.--gap.px]="gap">
+  <div class="grid">
+    <article class="card" *ngFor="let it of items">
+      <div class="icon" *ngIf="it.icon">{{ it.icon }}</div>
+      <h3 class="title">{{ it.title }}</h3>
+      <p class="text">{{ it.text }}</p>
+    </article>
+  </div>
+</section>

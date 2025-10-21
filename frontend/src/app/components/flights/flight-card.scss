@@ -1,0 +1,44 @@
+
+
+
+.card {
+  background:#0f0f36; 
+  color:#e7f0fa; 
+  border-radius:14px; 
+  padding:14px 16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.25); 
+  border:1px solid rgba(255,255,255,.06);
+}
+
+//RESULTS BOX all row
+
+.row { 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    gap:10px; 
+}
+
+.big { 
+    font-size:18px; 
+    font-weight:700; 
+}
+
+.code { 
+    color:#a3b4d1; 
+}
+
+.muted { 
+    color:#a3b4d1; 
+    font-size:13px; 
+    margin-top:4px; 
+}
+
+.actions { 
+    margin-top:10px; 
+}
+
+.price { 
+    font-weight:800; 
+    font-size:18px; 
+}

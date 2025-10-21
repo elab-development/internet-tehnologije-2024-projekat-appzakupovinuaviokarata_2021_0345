@@ -1,0 +1,16 @@
+<article class="card">
+    <div class="row">
+      <div class="big">{{vm.from}} → {{vm.to}}</div>
+      <div class="code">{{vm.flight_no}} • {{vm.carrier_code || '-'}}</div>
+    </div>
+
+    <div class="row muted">
+      <div>{{ vm.dep_time | date:'short' }} → {{ vm.arr_time | date:'short' }}</div>
+      <div>{{ vm.stops || 0 }} stop(s)</div>
+    </div>
+
+    <div class="row actions">
+      <div class="price" *ngIf="vm.price_eur !== undefined">€ {{ vm.price_eur | number:'1.0-0' }}</div>
+      <app-ui-button size="sm" (clicked)="select.emit(vm)">Book</app-ui-button>
+    </div>
+ </article>

@@ -1,0 +1,14 @@
+<button
+      type="button"
+      [disabled]="disabled || loading"
+      [ngClass]="[
+        'btn',
+        'btn--' + variant,
+        'btn--' + size,
+        block ? 'btn--block' : ''
+      ]"
+      (click)="clicked.emit()"
+    >
+      
+      <ng-content></ng-content>
+    </button>

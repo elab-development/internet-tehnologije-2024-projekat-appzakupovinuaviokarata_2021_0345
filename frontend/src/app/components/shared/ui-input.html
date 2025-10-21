@@ -1,0 +1,11 @@
+<div class="field">
+      <label *ngIf="label">{{ label }}</label>
+      <input
+        [attr.type]="type"
+        [attr.placeholder]="placeholder"
+        [formControl]="control"
+        [attr.inputmode]="inputmode"
+        [attr.min]="min" [attr.max]="max"
+      />
+      <small class="err" *ngIf="showError">{{ firstError }}</small>
+</div>

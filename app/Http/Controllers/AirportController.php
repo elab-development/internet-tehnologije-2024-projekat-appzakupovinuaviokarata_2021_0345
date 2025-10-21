@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Resources\AirportResource;
 use App\Models\Airport;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AirportController extends Controller
 {
@@ -31,7 +33,7 @@ class AirportController extends Controller
 
             $items = $query->orderBy('iata')->limit($limit)->get();
 
-            // Ako koristiš AirportResource:
+            
             return \App\Http\Resources\AirportResource::collection($items)
                 ->response()->getData(true);
         });

@@ -66,14 +66,14 @@ export class FlightSearchBarComponent {
       to:   (v.to   || '').toUpperCase(),
       date: v.depart || undefined,
       cabin: v.cabin,
-      stops: v.direct ? 0 : undefined,   // your API uses stops=0 for direct only
+      stops: v.direct ? 0 : undefined,  
       // pax is ignored by current API but we keep it in URL if you want it later
       pax: v.pax > 1 ? v.pax : undefined,
     };
     // If return, you could also navigate with ret date for future extension
     // q.return = v.tripType === 'return' ? v.ret || undefined : undefined;
 
-    // Emit for parent (optional)
+    
     this.submitted.emit(q);
 
     // Navigate to results

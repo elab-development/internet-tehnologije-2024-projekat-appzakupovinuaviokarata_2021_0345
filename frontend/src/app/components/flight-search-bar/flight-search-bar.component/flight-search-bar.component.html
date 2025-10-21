@@ -5,6 +5,7 @@
                 <div class="logo">✈️</div>
                 <div class="title">Find cheapest tickets!</div>
             </div>
+            <form [formGroup]="form" (ngSubmit)="submit()">
 
             <div class="tabs">
                 <button *ngFor="let t of tripTypes"
@@ -15,7 +16,7 @@
                 </button>
             </div>
 
-            <form class="bar" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="bar">
                 <!-- From -->
                 <div class="cell">
                 <label>From</label>
@@ -60,13 +61,15 @@
                 <div class="cell action">
                 <button type="submit" class="search">Search</button>
                 </div>
-            </form>
+            </div>
 
             <div class="options">
                 <label><input type="checkbox" formControlName="nearbyFrom" /> Add nearby airports (from)</label>
                 <label><input type="checkbox" formControlName="nearbyTo" /> Add nearby airports (to)</label>
                 <label><input type="checkbox" formControlName="direct" /> Direct flights</label>
             </div>
-            </div>
+            
+        </form>
+    </div>
     </div>
 </section>
