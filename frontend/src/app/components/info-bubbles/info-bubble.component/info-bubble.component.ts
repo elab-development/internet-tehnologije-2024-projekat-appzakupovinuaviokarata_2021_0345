@@ -10,7 +10,7 @@ export interface InfoBubbleItem {
 @Component({
   selector: 'app-info-bubble',
   standalone: true,
-  imports: [],
+  imports: [NgIf, NgFor],
   templateUrl: './info-bubble.component.html',
   styleUrl: './info-bubble.component.scss'
 })

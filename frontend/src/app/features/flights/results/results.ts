@@ -2,12 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { FlightCard, FlightVM } from '../../../components/flights/flight-card';
+import { FlightVM } from '../../../components/flights/flight-card';
 
 @Component({
   standalone: true,
   selector: 'app-results',
-  imports: [CommonModule, HttpClientModule, FlightCard],
+  imports: [CommonModule, HttpClientModule],
   template: `
   
   `

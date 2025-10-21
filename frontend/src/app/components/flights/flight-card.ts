@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UiButton } from '../shared/ui-button';
 
 
 export interface FlightVM {
@@ -16,7 +15,7 @@ export interface FlightVM {
 @Component({
   selector: 'app-flight-card',
   standalone: true,
-  imports: [CommonModule, UiButton],
+  imports: [CommonModule],
   template: `
   `,
   styleUrls: ['./flight-card.scss']

@@ -1,0 +1,128 @@
+/* EXPRESS BOOKING MODAL */
+
+.express-modal {
+  background: #f5f8ff;
+  border-radius: 16px;
+  overflow: hidden;
+  color: #0c1a33;
+  min-width: 280px;
+
+  .em-header {
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    background: #1976ff;
+    color: #fff;
+    padding: 10px 16px;
+
+    .em-title { font-weight: 800; }
+    .em-icon-close {
+      position: absolute; right: 10px; top: 8px;
+      border: none; background: transparent; color: #fff;
+      font-size: 16px; cursor: pointer; opacity: .8;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  .em-passenger {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #2b86ff;
+    color: #fff;
+    padding: 14px 16px;
+
+    .em-passenger-left {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .em-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: grid; place-items: center; font-size: 18px;
+    }
+    .em-passenger-info {
+      .em-passenger-name { font-weight: 700; line-height: 1; }
+      .em-passenger-phone { opacity: .9; font-size: .9rem; }
+    }
+    .em-passenger-actions {
+      display: flex; align-items: center; gap: 10px;
+      .em-trip-tag {
+        background: rgba(255,255,255,.2);
+        padding: 6px 10px; border-radius: 999px; font-weight: 700;
+      }
+    }
+  }
+
+  .em-card {
+    margin: 16px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e6ecff;
+    box-shadow: 0 6px 16px rgba(12,26,51,.08);
+    padding: 12px;
+  }
+
+  .em-itinerary {
+    padding: 8px 10px 2px 10px;
+    .em-leg {
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 6px;
+      border-bottom: 1px dashed #e6ecff;
+
+      &:last-child { border-bottom: none; }
+
+      .em-leg-icon { font-size: 18px; }
+      .em-leg-info {
+        .em-leg-line { font-weight: 800; }
+        .em-leg-meta { color: #5d6c8a; font-size: .9rem; display: flex; gap: 8px; flex-wrap: wrap; }
+      }
+    }
+  }
+
+  .em-addons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 12px 6px 4px 6px;
+
+    .em-addon {
+      border: 1px solid #e6ecff; border-radius: 12px;
+      padding: 10px; display: grid; gap: 6px;
+      justify-items: center; text-align: center;
+      background: #f9fbff;
+
+      .em-addon-icon { font-size: 20px; }
+      .em-addon-title { font-weight: 700; font-size: .9rem; color: #243b67; }
+      .em-addon-value { font-weight: 800; color: #0c1a33; }
+      .em-addon-badge {
+        padding: 4px 8px; border-radius: 999px; font-weight: 800; font-size: .75rem;
+        &.yes { background: #e4f9ee; color: #0d8a52; }
+        &.no  { background: #fff1f1; color: #c23b3b; }
+      }
+    }
+  }
+
+  .em-price {
+    background: #1976ff;
+    color: #fff;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 10px;
+    padding: 12px 16px;
+
+    .em-price-left { font-weight: 700; opacity: .95; }
+    .em-price-right {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+
+      .label { opacity: .9; }
+      .total { font-weight: 900; background: rgba(255,255,255,.15);
+               padding: 4px 8px; border-radius: 6px; }
+    }
+  }
+}
+
+/* responsive */
+@media (max-width: 640px) {
+  .express-modal .em-addons { grid-template-columns: repeat(2, 1fr); }
+  .express-modal .em-passenger { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .express-modal .em-price { grid-template-columns: 1fr; }
+}

@@ -24,7 +24,13 @@ export class BookingsService {
     return this.http.get<Booking>(`${this.base}/${id}`);
   }
 
+  create(payload: { flight_id: number; fare_id: number; passengers?: number; contact?: any }) {
+    return this.http.post<Booking>(this.base, payload);
+  }
+  update(id: number, payload: Partial<{ passengers: number; contact: any }>) {
+    return this.http.put<Booking>(`${this.base}/${id}`, payload);
+  }
   cancel(id: number) {
-    return this.http.patch<{message:string}>(`${this.base}/${id}/cancel`, {});
+    return this.http.delete<{message:string}>(`${this.base}/${id}`);
   }
 }

@@ -4,12 +4,14 @@ import { BookingsService } from '../bookings.service';
 import { UiButton } from '../../../components/shared/ui-button';
 import { UiModal } from '../../../components/shared/ui-modal';
 import { Booking } from '../../../core/models/booking/booking';
+import { NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-bookings',
-  imports: [CommonModule, UiModal, UiButton],
+  imports: [CommonModule, UiModal, UiButton, NgIf],
   templateUrl: './list.html',
+  styleUrls: ['./list.scss'], 
 })
 export class Bookings {
   private api = inject(BookingsService);
@@ -60,6 +62,17 @@ export class Bookings {
       }
     });
   }
+
+  cancel(id: number) {
+    this.api.cancel(id).subscribe({
+      next: () => {
+        this.items.set(this.items().map(x =>
+          x.id === id ? { ...x, status: 'CANCELLED' as any } : x
+        ));
+      }
+    });
+  }
+
 
   trackById = (_: number, x: Booking) => x.id;
 }

@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgIf, NgClass } from '@angular/common';
+//import { NgIf, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-ui-button',
   standalone: true,
-  imports: [NgIf, NgClass],
+  imports: [],
   template: `
     
   `,

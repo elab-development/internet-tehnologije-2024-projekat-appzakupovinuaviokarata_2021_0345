@@ -36,7 +36,7 @@ export class FlightSearchBarComponent {
     from:     this.fb.control('', { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(3)] }),
     to:       this.fb.control('', { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(3)] }),
     depart:   this.fb.control<string>('', []),     // yyyy-MM-dd
-    ret:      this.fb.control<string>('', []),     // yyyy-MM-dd (optional if oneway)
+    ret:      this.fb.control<string>('', []),     // yyyy-MM-dd
     pax:      this.fb.control<number>(1, { nonNullable: true }),
     cabin:    this.fb.control<Cabin>('ECONOMY', { nonNullable: true }),
     nearbyFrom: this.fb.control(false),
