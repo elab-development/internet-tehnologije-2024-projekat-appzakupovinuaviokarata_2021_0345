@@ -1,7 +1,62 @@
-<h2>Find Flights</h2>
-<form (ngSubmit)="go()" #f="ngForm" style="display:grid; gap:8px; max-width:380px">
-  <input name="from" [(ngModel)]="from" placeholder="From (IATA e.g. BEG)" required />
-  <input name="to"   [(ngModel)]="to"   placeholder="To (IATA e.g. AMS)" required />
-  <input name="date" [(ngModel)]="date" type="date" />
-  <button [disabled]="f.invalid">Search</button>
-</form>
+<!-- RESULTS LIST -->
+<section class="sr-wrap" *ngIf="!loading() && results().length; else srState">
+  <h2 class="sr-title">All available flights</h2>
+
+  <div class="sr-list">
+    <article class="sr-card" *ngFor="let f of results()">
+      <div class="sr-left">
+        <div class="sr-logo">{{ (f.carrier?.name || 'Carrier')[0] || '•' }}</div>
+      </div>
+
+      <div class="sr-mid">
+        <div class="sr-route">
+          <span class="city">{{ f.origin?.code || '—' }}</span>
+          <span class="arrow">→</span>
+          <span class="city">{{ f.destination?.code || '—' }}</span>
+          <span class="code">{{ f.code || ('FL ' + f.id) }}</span>
+        </div>
+
+        <div class="sr-meta">
+          <span>
+            {{ fmt(f.departure_time) ? (fmt(f.departure_time) | date:'EEE d MMM, y') : '—' }}
+          </span>
+          <span>•</span>
+          <span>
+            {{ fmt(f.departure_time) ? (fmt(f.departure_time) | date:'HH:mm') : '—' }}
+            –
+            {{ fmt(f.arrival_time)   ? (fmt(f.arrival_time)   | date:'HH:mm') : '—' }}
+          </span>
+          <span>•</span>
+          <span>{{ f.carrier?.name || 'Unknown carrier' }}</span>
+        </div>
+      </div>
+
+      <div class="sr-right">
+        <ng-container *ngIf="cheapestFare(f) as fare; else noFare">
+          <div class="sr-price">
+            <div class="amt">{{ fare.price | number:'1.0-2' }}</div>
+            <div class="cur">{{ fare.currency || 'EUR' }}</div>
+          </div>
+          <div class="sr-class">{{ (fare.class || 'ECONOMY') | titlecase }}</div>
+        </ng-container>
+        <ng-template #noFare>
+          <div class="sr-noprice">No fare</div>
+        </ng-template>
+
+        <button class="sr-cta">Select</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<ng-template #srState>
+  <div class="sr-state" *ngIf="loading(); else emptyOrError">Searching flights…</div>
+</ng-template>
+
+<ng-template #emptyOrError>
+  <div class="sr-state" *ngIf="error(); else noResults">{{ error() }}</div>
+</ng-template>
+
+<ng-template #noResults>
+  <div class="sr-state" *ngIf="!loading() && !results().length">No flights found.</div>
+</ng-template>

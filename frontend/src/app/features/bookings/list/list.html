@@ -1,99 +1,135 @@
-<app-ui-modal [open]="isModalOpen()" title="" (close)="closeModal()">
-  <ng-container *ngIf="selected() as s">
 
-    <div class="express-modal">
-      <!-- Header -->
-      <div class="em-header">
-        <div class="em-title">Express Booking</div>
-        <button class="em-icon-close" (click)="closeModal()">✕</button>
+<section class="eb-hero">
+  <h1 class="eb-hero-title">Online Booking<br>Ticket Flight</h1>
+  <p class="eb-hero-sub">
+    Online tickets make it easier for users without<br>
+    worrying about losing or damaging them
+  </p>
+</section>
+
+
+
+<div class="eb-wrap">
+  <div class="eb-card" *ngFor="let b of items(); trackBy: trackById">
+ 
+  <div class="eb-leg">
+    <div class="eb-ill">🕍</div>
+    <div class="eb-icon">✈️</div>
+    <div class="eb-leg-body">
+      <div class="eb-route">
+        {{ b.flight?.origin || 'Krakow' }}
+        <span class="sep">to</span>
+        {{ b.flight?.destination || 'Dublin' }}
       </div>
-
-      <!-- Passenger strip -->
-      <div class="em-passenger">
-        <div class="em-passenger-left">
-          <div class="em-avatar">👤</div>
-          <div class="em-passenger-info">
-            <div class="em-passenger-name">{{ s.contact?.name || 'Passenger' }}</div>
-            <div class="em-passenger-phone">{{ s.contact?.phone || s.contact?.email || '—' }}</div>
-          </div>
-        </div>
-        <div class="em-passenger-actions">
-          <app-ui-button variant="ghost" size="sm">Modify</app-ui-button>
-          <div class="em-trip-tag">My City Break</div>
-        </div>
+      <div class="eb-meta">
+        <span>{{ fmt(b.flight?.departure) | date:'EEE d MMM, y' }}</span>
+        <span>•</span>
+        <span>
+          {{ fmt(b.flight?.departure) | date:'HH:mm' }} – {{ fmt(b.flight?.arrival) | date:'HH:mm' }}
+        </span>
+        <span>•</span>
+        <span>{{ b.flight?.code || ('FR ' + (b.flight?.id ?? '3756')) }}</span>
       </div>
+    </div>
+    <div class="eb-actions">
+      <span class="eb-badge" [ngClass]="classColor(b.fare?.class)">
+        {{ (b.fare?.class || 'ECONOMY') | titlecase }}
+      </span>
+    </div>
+  </div>
 
-     
-      <div class="em-card">
-        
-        <div class="em-itinerary">
-          <div class="em-leg">
-            <div class="em-leg-icon">✈️</div>
-            <div class="em-leg-info">
-              <div class="em-leg-line">
-                <span class="from">{{ s.flight?.origin || '—' }}</span>
-                <span>to</span>
-                <span class="to">{{ s.flight?.destination || '—' }}</span>
-              </div>
-              <div class="em-leg-meta">
-                <span>{{ s.flight?.departure | date:'EEE d MMM, y' }}</span>
-                <span>•</span>
-                <span>{{ s.flight?.departure | date:'HH:mm' }} → {{ s.flight?.arrival | date:'HH:mm' }}</span>
-                <span>•</span>
-                <span>{{ s.flight?.code || ('FL ' + s.flight?.id) }}</span>
-              </div>
-            </div>
-            <div class="em-leg-action">
-              <app-ui-button variant="ghost" size="sm">Modify Time</app-ui-button>
-            </div>
-          </div>
 
-          
-        </div>
-
-        
-        <div class="em-addons">
-          <div class="em-addon">
-            <div class="em-addon-icon">🪑</div>
-            <div class="em-addon-title">Seats</div>
-            <div class="em-addon-value">2A</div>
-          </div>
-          <div class="em-addon">
-            <div class="em-addon-icon">🧳</div>
-            <div class="em-addon-title">Bags</div>
-            <div class="em-addon-value">15 kg</div>
-          </div>
-          <div class="em-addon">
-            <div class="em-addon-icon">🚪</div>
-            <div class="em-addon-title">Priority Boarding</div>
-            <div class="em-addon-badge yes">YES</div>
-          </div>
-          <div class="em-addon">
-            <div class="em-addon-icon">⚡</div>
-            <div class="em-addon-title">Fast Track</div>
-            <div class="em-addon-badge no">NO</div>
-          </div>
-        </div>
+  <div class="eb-leg-a eb-leg--divider">
+    <img class="eb-plane" src="assets/plane.png" alt="plane" >
+    <div class="eb-leg-body-a">
+      <div class="eb-route">
+        {{ (b.flight?.destination || 'Krakow') }}
+        <b>to</b>
+        {{ (b.flight?.origin || 'Dublin') }}
       </div>
+      <div class="eb-meta">
+        <span>{{ fmt(b.flight?.departure) ? (fmt(b.flight?.departure) | date:'EEE d MMM, y') : 'Tue 17 Jan 2017' }}</span>
+        <span>•</span>
+        <span>{{ fmt(b.flight?.arrival) ? (fmt(b.flight?.arrival) | date:'HH:mm') : '09:05' }} – 11:15</span>
+        <span>•</span>
+        <span>{{ b.flight?.code || 'FR 128' }}</span>
+      </div>
+    </div>
+    <div class="eb-actions">
+      <button class="btn-mini">Modify Time ▾</button>
+    </div>
+  </div>
 
-      
-      <div class="em-price">
-        <div class="em-price-left">Price Breakdown</div>
-        <div class="em-price-right">
-          <span class="label">Total cost:</span>
-          <span class="total">
-            {{ s.total_price | number:'1.0-2' }} {{ s.currency || 'EUR' }}
-          </span>
-          <app-ui-button (clicked)="cancelSelected()" variant="ghost" size="sm"
-                         [disabled]="(s.status||'').toUpperCase()==='CANCELLED'">
-            Continue without express booking
-          </app-ui-button>
-          <app-ui-button [disabled]="(s.status||'').toUpperCase()==='CANCELLED'">
-            Pay Now
-          </app-ui-button>
-        </div>
+
+  <div class="eb-addons">
+    <div class="eb-addon">
+      <div class="i">🪑</div>
+      <div class="t">Seats</div>
+      <div class="v">
+        <div class="chip">{{ seat(b.id, 'out') }}</div>
+        <small>Outbound</small>
+      </div>
+      <div class="v">
+        <div class="chip">{{ seat(b.id, 'ret') }}</div>
+        <small>Return</small>
       </div>
     </div>
 
-  </ng-container>
-</app-ui-modal>
+    <div class="eb-addon">
+      <div class="i">🧳</div>
+      <div class="t">Bags</div>
+      <div class="v">
+        <div class="chip">{{ bagsKg(b.id) }} kg</div>
+        <small>Outbound</small>
+      </div>
+      <div class="v">
+        <div class="chip">{{ bagsKg(b.id) }} kg</div>
+        <small>Return</small>
+      </div>
+    </div>
+
+    <div class="eb-addon">
+      <div class="i">🧍‍♂️</div>
+      <div class="t">Priority Boarding</div>
+      <div class="v">
+        <div class="pill yes">YES</div>
+        <small>Outbound</small>
+      </div>
+      <div class="v">
+        <div class="pill yes">YES</div>
+        <small>Return</small>
+      </div>
+    </div>
+
+    <div class="eb-addon">
+      <div class="i">⚡</div>
+      <div class="t">Fast Track</div>
+      <div class="v">
+        <div class="pill {{ fast(b.id) ? 'yes' : 'no' }}">{{ fast(b.id) ? 'YES' : 'NO' }}</div>
+        <small>Outbound</small>
+      </div>
+      <div class="v">
+        <div class="pill {{ fast(b.id+1) ? 'yes' : 'no' }}">{{ fast(b.id+1) ? 'YES' : 'NO' }}</div>
+        <small>Return</small>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="eb-price">
+    <div class="left">Total:</div>
+    <div class="right">
+      <strong>{{ b.total_price | number:'1.0-2' }} {{ b.currency || 'EUR' }}</strong>
+      <app-ui-button variant="ghost" (clicked)="openDetails(b)">View</app-ui-button>
+      <app-ui-button variant="ghost"
+                     [disabled]="(b.status||'').toUpperCase()==='CANCELLED'"
+                     (clicked)="cancel(b.id)">Cancel</app-ui-button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<section class="eb-cta">
+  <button class="eb-cta-btn">Download your ticket</button>
+</section>

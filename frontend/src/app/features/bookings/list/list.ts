@@ -5,6 +5,7 @@ import { UiButton } from '../../../components/shared/ui-button';
 import { UiModal } from '../../../components/shared/ui-modal';
 import { Booking } from '../../../core/models/booking/booking';
 import { NgIf } from '@angular/common';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -12,6 +13,7 @@ import { NgIf } from '@angular/common';
   imports: [CommonModule, UiModal, UiButton, NgIf],
   templateUrl: './list.html',
   styleUrls: ['./list.scss'], 
+  encapsulation: ViewEncapsulation.None,
 })
 export class Bookings {
   private api = inject(BookingsService);
@@ -71,6 +73,35 @@ export class Bookings {
         ));
       }
     });
+  }
+
+  fmt(d?: string | null) {
+    return d ? new Date(d) : null;
+  }
+
+
+
+  private hash(n: number, salt = 0) { return Math.abs(Math.sin(n*9301 + salt*49297) * 10000); }
+
+  seat(id: number, which: 'out'|'ret') {
+    const n = Math.floor(this.hash(id, which === 'out' ? 1 : 2) % 28) + 1;
+    const letters = ['A','B','C','D','E','F'];
+    return `${n}${letters[Math.floor(this.hash(id, which === 'out' ? 3 : 4) % letters.length)]}`;
+  }
+
+  bagsKg(id: number) {
+    return [10,15,20][Math.floor(this.hash(id, 5) % 3)];
+  }
+
+  fast(id: number) {
+    return this.hash(id, 6) % 2 < 1; // true/false
+  }
+
+  classColor(v?: string | null) {
+    const k = (v || 'economy').toLowerCase();
+    if (k.includes('first'))    return 'is-first';
+    if (k.includes('business')) return 'is-business';
+    return 'is-economy';
   }
 
 
